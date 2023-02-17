@@ -7,6 +7,28 @@
 
 This repo is used to pull Google Street View (GSV) images of cropland for a user defined geographical area.
 
+# Usage
+
+    1. Run getAllRoadPtsBearing.py on a region defined by 4 (lat, lon) points.
+    
+    2. Upload the roadPoints.csv file generated to GEE by opening a GEE editor, clicking top right on "Assets", then "NEW", then "CSV File". 
+    
+    IMPORTANT: When uploading the new csv asset, scroll down to "Advanced Options" and set the "X column (longitude)" to "y" and the "Y column (latitude)" to "x".
+    
+    3. Run GeeFilterPoints.js on the GEE editor, and download the two csv files generated:
+    - OverlappedLandCoverRoadsThailandESA-WorldCover-sides20x20.csv
+    - OverlappedTreeCoverRoadsThailandESA-WorldCover-sides20x20.csv
+    
+    4. Move the two csv files to the "data/" folder and fill in "KEY" with your Google Street View API Key in getGSVFieldImages.py.
+    
+    5. Run getGSVFieldImages.py. 
+    
+    All images will be downloaded to 'images/noTreeCropsEmbeddedSides/'.
+    
+    
+
+
+
 # How it works
 ### 1. Generating Street Points: getAllRoadPtsBearing.py
 Input: **user defined area**
@@ -33,13 +55,6 @@ Output: 2 dicts saved in Google Drive:
 
 The GEE script uses the USGS GFSAD1000 dataset and is overlapped with the roadPoints generated to filter out the points that are not in a Land Cover area and saves the subset of roadPoints from the region defined that lie within land cover. 
 Further, it also saves the roadPoints that lie within tree cover. This is used in the next section to remove Land Cover roadPoints that have tree cover nearby, since tree cover obstructs GSV images from showing field images.
-
-**USER TODO:** 
-
-    Upload roadPoints.csv to GEE by clicking top right on "Assets", then "NEW", then "CSV File". 
-
-    IMPORTANT: When uploading the new csv asset, scroll down to "Advanced Options" and set the "X column (longitude)" to "y" and the "Y column (latitude)" to "x".
-
 
 
 ### 3. Post-processing and GSV image Querying: getGSVFieldImages.py
